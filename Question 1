@@ -1,0 +1,26 @@
+-> What is elastick Search?
+    Elasticsearch is a database that stores, retrieves, and manages document-oriented and semi-structured data.
+    When you use Elasticsearch, you store data in JSON document form. Then, you query them for retrieval.
+    It is schema-less, using some defaults to index the data unless you provide mapping as per your needs.
+    Elasticsearch uses Lucene StandardAnalyzer for indexing for automatic type guessing and for high precision.
+
+
+->Why we use elsatic search?
+    Products that involve e-commerce and search engines with huge databases are facing issues such as product information retrieval taking
+    too long. This leads to poor user experience and in turn turns off potential customers.Lag in search is attributed to the relational
+    database used for the product design, where the data is scattered among multiple tables — and the successful retrieval of meaningful
+    user information requires fetching the data from these tables. The relational database works comparatively slow when it comes to huge
+    data and fetching search results through database queries. Businesses nowadays are looking for alternatives where the data stored to 
+    promote quick retrieval. This can be achieved by adopting NoSQL rather than RDBMS for storing data.
+    Elasticsearch (ES) is one such NoSQL distributed database. Elasticsearch relies on flexible data models to build and update visitor
+    profiles to meet the demanding workloads and low latency required for real-time engagement.
+    
+->what is Concept behind using elastick search?
+    Elasticsearch has its own query domain-specific language in which you specify the query in JSON format.
+    You can also nest other queries based on your needs. Real-world projects require search on different fields by applying some conditions,
+    different weights, recent documents, values of some predefined fields, and so on. All such complexity can be expressed through a single 
+    query. The query DSL is powerful and is designed to handle real-world query complexity through a single query.
+    Elasticsearch APIs are directly related to Lucene and use the same name as Lucene operations. Query DSL also uses the Lucene TermQuery 
+    to execute it.
+    
+    
