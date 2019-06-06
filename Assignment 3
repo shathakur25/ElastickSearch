@@ -1,0 +1,41 @@
+What do you mean by document,indexes,shards and replicas?
+  Document:
+    A document is a basic unit of information that can be indexed.
+    For example, you can have a document for a single customer,another document for a single product, and yet another for a single order.
+    This document is expressed in JSON (JavaScript Object Notation) which is a ubiquitous internet data interchange format.
+    Within an index, you can store as many documents as you want.
+    
+  
+  Indexes:
+    An index is a collection of documents that have somewhat similar characteristics.
+    For example, you can have an index for customer data, another index for a product catalog, and yet another index for order data.
+    An index is identified by a name (that must be all lowercase) and this name is used to refer to the index when performing indexing,
+    search, update, and delete operations against the documents in it.
+    
+    In a single cluster, you can define as many indexes as you want.
+  
+  Shards:
+    A shard contains a subset of the index's data.
+    When an index is sharded, a given document within that index will only be stored within one of the shards.
+    The amazing thing about shards is that they can be hosted on any node within the cluster.
+    Now, coming to our example,we can easily divide the 1 TB index into four shards, where each shard is 256 GB in size. Now, these four
+    shards can then be easily distributed across the two nodes available to us. Hence, we have successfully managed to store our 1 TB
+    index in our 2 nodes, each with the capacity to hold 512 GB, by harnessing the power of sharding.Hence, even with increasing
+    volumes of data, one can tweak the number of shards to manage that and, in this sense,sharding provides scalability.
+    
+    Along with the scalability it provides, there is one more major advantage of using sharding. The operations (like querying the data) 
+    can easily be distributed among multiple nodes and hence we can parallelize our operations which would certainly enhance the performance
+  
+  Replicas:
+    Elasticsearch natively supports replication, meaning that shards are copied. These copied shards are referred to as replica shards or 
+    just replicas. The "original" shards that have been copied are called as primary shards.
+    
+    There are two major benefits we get from replication:
+      Fault Tolerance and High Availability:
+        To make replication even more effective, replicas are never allocated to the same node as their respective primary shards.
+        Hence, even if the entire node fails, we would be having at least one replica of each and every shard (or primary shards in case of failed ones is a replica) that were present in the failed node.
+      
+      Enhanced Performance: 
+        Replication increases the search performance because, now, searches can be executed on all replicas in parallel, 
+        meaning that replicas actually add to the search capabilities of the cluster.
+       
