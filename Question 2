@@ -1,0 +1,51 @@
+What are types of the elastick search nodesand differences between them?
+  There are three types of ES nodes.
+  1.Client node
+  2.Master node
+  3.Data node
+  4.Ingest node
+
+
+1.Client node
+  A client node in Elasticsearch acts as a query router and a load balancer. It does not hold any data.
+  A client node can be used to query as well as index processes. It takes queries and distributes the search to data nodes.
+  Once the data nodes return their respective results, the client node combines all the data to give the final results.
+  Similarly, when you send the data to a client node for indexing, it calculates the sharding key for each document and sends
+  the documents for the respective shards.
+  
+  A client node can be configured by adding the following lines to the elasticsearch.yml file:
+    node.data: false
+    node.master: false
+ 
+2.Master node
+  A master node in charge of cluster-wide management and configuration actions such as adding and removing nodes
+  The master node is responsible for lightweight cluster-wide actions such as creating or deleting an index, tracking 
+  which nodes are part of the cluster,and deciding which shards to allocate to which nodes. It is important for cluster health to have
+  a stable master node
+  
+  A Master node can be configured by adding the following lines to the elasticsearch.yml file:
+    node.data: false
+    node.master: true
+ 
+ 3.Data node
+    Data nodes hold the shards that contain the documents you have indexed. Data nodes handle data related operations like CRUD, search,
+    and aggregations. These operations are I/O-, memory-, and CPU-intensive. It is important to monitor these resources and to add more
+    data nodes if they are overloaded.
+    
+    The main benefit of having dedicated data nodes is the separation of the master and data roles.
+  
+    A data node can be configured by adding the following lines to the elasticsearch.yml file:
+      node.data: true
+      node.master: false
+  
+  
+  4.Ingest node(introduced in 6.x release verison)
+    Ingest nodes can execute pre-processing pipelines, composed of one or more ingest processors. Depending on the type of operations
+    performed by the ingest processors and the required resources, it may make sense to have dedicated ingest nodes,
+    that will only perform this specific task.
+  
+    A Ingest node can be configured by adding the following lines to the elasticsearch.yml file:
+      node.data: false
+      node.master: false
+      node.ingest: true
+  
