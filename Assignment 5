@@ -1,0 +1,53 @@
+How to configure elasticsearch in production in HA mode?
+  Complete below steps on all of your Elasticsearch servers.
+  Open the Elasticsearch configuration file for editin /etc/elasticsearch/elasticsearch.yml
+  
+  1. Bind to VPN IP Address or Interface
+    You will want to restrict outside access to your Elasticsearch instance, so outsiders can't access your data or shut down 
+    your Elasticsearch cluster through the HTTP API. In other words, you must configure Elasticsearch such that it only allows 
+    access to servers on your private network (VPN). To do this, we need to configure each node to bind to the VPN IP address,
+    vpn_ip, or interface, "tun0".
+
+    Find the line that specifies network.host, uncomment it, and replace its value with the respective server's VPN IP address
+    (e.g. 10.0.0.1 for node01) or interface name. Because our VPN interface is named "tun0" on all of our servers,
+     we can configure all of our servers with the same line:
+    
+     elasticsearch.yml — network.host
+     network.host: [_tun0_, _local_]
+
+     Note the addition of "_local_", which configures Elasticsearch to also listen on all loopback devices.
+     This will allow you to use the Elasticsearch HTTP API locally, from each server, by sending requests to localhost.
+     If you do not include this, Elasticsearch will only respond to requests to the VPN IP address.
+
+  2.Set Cluster Name
+    Next, set the name of your cluster, which will allow your Elasticsearch nodes to join and form the cluster.
+    elasticsearch.yml — cluster.name
+    cluster.name: production
+
+  3.Set Node Name
+    Next, we will set the name of each node. This should be a descriptive name that is unique within the cluster.
+    elasticsearch.yml — node.name
+    node.name: ${HOSTNAME}
+  4.Set Discovery Hosts
+    Next, you will need to configure an initial list of nodes that will be contacted to discover and form a cluster. 
+    This is necessary in a unicast network.
+    
+    Find the line that specifies discovery.zen.ping.unicast.hosts and uncomment it. Replace its value with an array of strings 
+    of the VPN IP addresses or hostnames (that resolve to the VPN IP addresses) of all of the other nodes.
+    
+    For example, if you have three servers node01, node02, and node03 with respective VPN IP addresses of 10.0.0.1, 10.0.0.2, 
+    and 10.0.0.3, you could use this line:
+    
+    elasticsearch.yml — hosts by IP address
+    discovery.zen.ping.unicast.hosts: ["10.0.0.1", "10.0.0.2", "10.0.0.3"]
+
+    Alternatively, if all of your servers are configured with name-based resolution of their VPN IP addresses (via DNS or /etc/hosts), you could use this line:
+    elasticsearch.yml — hosts by name
+    discovery.zen.ping.unicast.hosts: ["node01", "node02", "node03"]
+      
+  5.Save and exit elasticsearch.yml.
+  
+  6.Start Elasticsearch
+    sudo service elasticsearch restart
+    
+Next ,you can configure Master node,data node,control and ingest node by setting individuals node.true/false.
