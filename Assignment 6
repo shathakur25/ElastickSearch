@@ -1,0 +1,16 @@
+How to scale elastic search cluster node?
+  Let's assume that our application is running on 2 nodes and application keeps growing so we need to scale elastic search.
+  A three-node cluster—shards have been reallocated to spread the load once you added new node that third one.
+  
+  One shard each from Node 1 and Node 2 have moved to the new Node 3, and we have two shards per node, instead of three. This means 
+  that the hardware resources (CPU, RAM, I/O) of each node are being shared among fewer shards, allowing each shard to perform better.
+  A shard is a fully fledged search engine in its own right, and is capable of using all of the resources of a single node. 
+  With our total of six shards (three primaries and three replicas), our index is capable of scaling out to a maximum of six nodes,
+  with one shard on each node and each shard having access to 100% of its node’s resources.
+  
+  The number of replica shards can be changed dynamically on a live cluster, allowing us to scale up or down as demand requires.
+  Let’s increase the number of replicas from the default of 1 to 2:
+    PUT /blogs/_settings
+    {
+      "number_of_replicas" : 2
+    }
