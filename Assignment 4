@@ -1,0 +1,16 @@
+How to configure elasticsearch standalone?
+ Follow below steps to configure standalone elastickserach.
+ 1.once elastic search installation completed open the configuration file from below path
+  /etc/elasticsearch/elasticsearch.yml
+ 2.Edit below line from file elasticsearch.yml
+  cluster.name: mycluster1
+  node.name: "My First Node"
+  # network.host: 192.168.0.1
+  Uncomment it and set the VPN IP to your server.
+  network.host: x.x.x.x
+  node.master: true
+  node.data: true
+  index.number_of_shards: 1
+  index.number_of_replicas: 0
+ 3.Save and exit the file.
+ 4.Finally, start and enable the Elasticsearch service.
