@@ -1,0 +1,26 @@
+Ansible role to create elasticsearch cluster by using aws-instance tag.
+  You need to update below fields in elasticsearch.yaml file
+    cluster.name: my-cluster
+    path.data: /data/data
+    path.logs: /data/logs
+    network.host: _ec2_
+    node.data: true
+    node.master: true
+    cloud.node.auto_attributes: true
+    discovery.ec2.tag.es_cluster: prod-elasticsearch
+    discovery.zen.hosts_provider: ec2
+    cluster.routing.allocation.awareness.attributes: aws_availability_zone
+    cloud.aws.region: eu-west-1
+   
+  Then you can use assignment 7 to create ansible role that craete elasticsearch cluster mode
+      site.yml — Master-eligible/data nodes
+                - hosts: elasticsearch_master_data_nodes
+                  roles:
+                    - { role: elasticsearch, es_instance_name: "node1", es_config: { discovery.zen.ping.unicast.hosts: "node01, node02, node03", network.host: "_tun0_, _local_", cluster.name: "production", discovery.zen.ping.multicast.enabled: false, http.port: 9200, transport.tcp.port: 9300, node.data: true, node.master: true, bootstrap.mlockall: true } }
+                  vars:
+                    es_major_version: "2.x"
+                    es_version: "2.2.1"
+                    es_heap_size: "2g"
+                    es_cluster_name: "production"
+
+  
